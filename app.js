@@ -6,4 +6,4 @@ const fs = require('fs')
 
 const questions = [
 
-]
+];
