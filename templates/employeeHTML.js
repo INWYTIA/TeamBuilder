@@ -17,7 +17,8 @@ function employeeHTML (data) {
         <li class="list-group-item">${unique}</li>
       </ul>
     </div>
-  </div>`
+  </div>
+  `
   }
 
 module.exports = employeeHTML;

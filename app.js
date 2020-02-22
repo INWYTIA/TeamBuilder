@@ -10,6 +10,26 @@ const capHTML = require('./templates/capHTML');
 
 const appendFileAsync = util.promisify(fs.appendFile);
 
+var filePath;
+
+const phase2Question = [
+  {
+    type: 'confirm',
+    name: 'engineers',
+    message: 'Are there any engineers on this team?',
+    default: true
+  },
+];
+
+const phase3Question = [
+  {
+    type: 'confirm',
+    name: 'interns',
+    message: 'Are there any interns on this team?',
+    default: true
+  },
+];
+
 const managerQuestions = [
   {
     type: "input",
@@ -54,6 +74,12 @@ const engineerQuestions = [
     message: "What is their github profile name?",
     name: "github"
   },
+  {
+    type: 'confirm',
+    name: 'again',
+    message: 'Are there any more engineers?',
+    default: true
+  },
 ];
 
 const internQuestions = [
@@ -77,32 +103,64 @@ const internQuestions = [
     message: "What school do they attend?",
     name: "school"
   },
+  {
+    type: 'confirm',
+    name: 'again',
+    message: 'Are there any more interns?',
+    default: true
+  },
 ];
 
 function getManager () {
-  Inquirer.prompt(managerQuestions).then(ans => {
+  return new Promise (function (resolve) {
+    Inquirer.prompt(managerQuestions).then(ans => {
     const user = new Manager (ans.name, ans.id, ans.email, ans.officeNum);
-    const filePath = `${ans.name}'s Team.html`;
-    //generate html with user info and return it
-  })
-  //THEN 'append' beginning of file with html
-  //THEN ask how many engineers are on the team and return the result
+    filePath = `./output/${ans.name}'s Team.html`;
+    resolve (managerHTML(user));
+    });
+  });
 };
 
-function getEngineers (quantity) {
-  //if no engineers log a message and move on
-  //else loop for number of engineers
-    //inquire for engineer data
-    //pass data to html generator
-    //append to file
-  //THEN ask how many interns are on the team and return the result
+async function getEngineers (html) {
+  if (!html) {
+    html = ``;
+  };
+  const {again, ...ans} = await Inquirer.prompt(engineerQuestions);
+  const myEngineer = new Engineer (ans.name, ans.id, ans.email, ans.github);
+  const newHTML = employeeHTML(myEngineer);
+  const finalHTML = html + newHTML;
+  return again ? getEngineers (finalHTML) : finalHTML;
 };
 
-function getInterns (quantity) {
-  //if no interns log a message and move on
-  //else loop for interns
-    //inquire for intern data
-    //pass data to html generator
-    //append to file
-  //cap html and log message that the file is done
+async function getInterns (html) {
+  if (!html) {
+    html = ``;
+  };
+  const {again, ...ans} = await Inquirer.prompt(internQuestions);
+  const myIntern = new Intern (ans.name, ans.id, ans.email, ans.school);
+  const newHTML = employeeHTML(myIntern);
+  const finalHTML = html + newHTML;
+  return again ? getInterns (finalHTML) : finalHTML;
 };
+
+getManager().then(html => {
+  appendFileAsync (filePath, html);
+  console.log("Now let's put your team together starting with your enginneers.");
+}).then(async () => {
+  const ans = await Inquirer.prompt(phase2Question);
+  if (ans.engineers) {
+    await getEngineers().then(html => {
+      appendFileAsync (filePath, html);
+    });
+  };
+  console.log("Last, but not least, we'll add your interns.");
+}).then(async () => {
+  const ans = await Inquirer.prompt(phase3Question);
+  if (ans.interns) {
+    await getInterns().then(html => {
+      const endCap = html + capHTML();
+      appendFileAsync (filePath, endCap);
+    });
+  };
+  console.log(`Your page is complete! You can find it at ${filePath}.`);
+});
