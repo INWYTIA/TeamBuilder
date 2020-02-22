@@ -4,10 +4,95 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>My Team</title>
     <style>
-
+      .card {
+        margin-bottom: 20px;
+        border: 2px solid #777;
+      }
+      .jumbotron {
+        background-color: #669988;
+      }
+      .Engineer {
+        background-color: #bf9;
+      }
+      .Intern {
+        background-color: #ffc;
+      }
+      body {
+        background-color: #e0e8ff;
+      }
+      h1, h5 {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
-    
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Manager's Team</h1>
+        <h3>Manager</h3>
+        <div class="row">
+          <div class="col">Name:</div>
+          <div class="col">ID #:</div>
+          <div class="col">Email:</div>
+          <div class="col">Office Number:</div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Role</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID #:</li>
+              <li class="list-group-item">Email:</li>
+              <li class="list-group-item"><a href="#" class="card-link">Github</a> / School</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Role</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID #:</li>
+              <li class="list-group-item">Email:</li>
+              <li class="list-group-item"><a href="#" class="card-link">Github</a> / School</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card Engineer">
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Engineer</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID #:</li>
+              <li class="list-group-item">Email:</li>
+              <li class="list-group-item"><a href="#" class="card-link">Github</a> / School</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card Intern">
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Intern</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID #:</li>
+              <li class="list-group-item">Email:</li>
+              <li class="list-group-item"><a href="#" class="card-link">Github</a> / School</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
